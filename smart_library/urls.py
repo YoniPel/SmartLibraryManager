@@ -21,6 +21,6 @@ from catalog.views import home, add_book
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', home, name='home'),
-    path('add_book/', add_book, name='addBook')
+    path('add_book/', add_book, name='add_book')
 
 ]

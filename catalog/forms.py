@@ -8,9 +8,7 @@ class BookISBNForm(forms.ModelForm):
         fields = ["isbn"]
 
 
-
 class BookTitleForm(forms.ModelForm):
     class Meta:
         model = models.Book
         fields = ["title"]
-
