@@ -20,6 +20,9 @@ def fetch_book_details_by_isbn(isbn):
         print(f"Request failed: {e}")
         return None
 
+    if raw_data['totalItems'] == 0:
+        return None
+
     book_details = {
         "title": None,
         "author": None,
@@ -62,7 +65,7 @@ def fetch_book_details_by_isbn(isbn):
     # if we didn't find the data from Google Books API, use a default data
     book_details["title"] = book_details["title"] or "שם ספר לא ידוע"
     book_details["author"] = book_details["author"] or "מחבר לא ידוע"
-    book_details["page_count"] = book_details["page_count"] or "מספר עמודים לא ידוע"
+    book_details["page_count"] = book_details["page_count"] or 0
     book_details["cover_image"] = book_details["cover_image"] or "אין תמונה זמינה לספר"
 
     return book_details
@@ -86,6 +89,9 @@ def fetch_book_details_by_book_name(title):
         print(f"Request failed: {e}")
         return None
 
+    if raw_data['totalItems'] == 0:
+        return None
+
     book_details = {
         "title": title,
         "author": None,
@@ -96,40 +102,52 @@ def fetch_book_details_by_book_name(title):
         "isbn": None
     }
 
+    # checks for the right book
+    found_book = False
+
     if "items" in raw_data:
         for item in raw_data['items']:
             data = item['volumeInfo']
 
-            if not book_details["author"]:
-                authors = data.get("authors", [])
-                author = authors[0] if authors else None
-                book_details["author"] = author
+            if data['title'] == title:
+                found_book = True
+                if not book_details["author"]:
+                    authors = data.get("authors", [])
+                    author = authors[0] if authors else None
+                    book_details["author"] = author
 
-            if not book_details["description"]:
-                book_details["description"] = data.get("description", None)
+                if not book_details["description"]:
+                    book_details["description"] = data.get("description", None)
 
-            if not book_details["published_date"]:
-                book_details["published_date"] = data.get("publishedDate", None)
+                if not book_details["published_date"]:
+                    book_details["published_date"] = data.get("publishedDate", None)
 
-            if not book_details["page_count"]:
-                book_details["page_count"] = data.get("pageCount", None)
+                if not book_details["page_count"]:
+                    book_details["page_count"] = data.get("pageCount", None)
 
-            if not book_details["cover_image"]:
-                image_links = data.get("imageLinks", {})
-                thumbnail = image_links.get("thumbnail")
-                if thumbnail:
-                    # because we use https, if we will try to use an image from http it will failed
-                    secure_thumbnail = thumbnail.replace("http://", "https://")
-                    book_details["cover_image"] = secure_thumbnail
+                if not book_details["cover_image"]:
+                    image_links = data.get("imageLinks", {})
+                    thumbnail = image_links.get("thumbnail")
+                    if thumbnail:
+                        # because we use https, if we will try to use an image from http it will failed
+                        secure_thumbnail = thumbnail.replace("http://", "https://")
+                        book_details["cover_image"] = secure_thumbnail
 
-            if not book_details["isbn"]:
-                book_details["isbn"] = extract_isbn_from_data(data)
+                if not book_details["isbn"]:
+                    book_details["isbn"] = extract_isbn_from_data(data)
+
+                # if we found all of the values, no need to keep looking
+                if all(book_details.values()):
+                    break
+
+    if not found_book:
+        return None
 
     # if we didn't find the data from Google Books API, use a default data
     book_details["author"] = book_details["author"] or "מחבר לא ידוע"
-    book_details["page_count"] = book_details["page_count"] or "מספר עמודים לא ידוע"
+    book_details["page_count"] = book_details["page_count"] or 0
     book_details["cover_image"] = book_details["cover_image"] or "אין תמונה זמינה לספר"
-    book_details["isbn"] = book_details["isbn"] or "לא נמצא מזהה ISBN"
+    book_details["isbn"] = book_details["isbn"] or None
 
     return book_details
 
