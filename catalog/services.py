@@ -86,7 +86,7 @@ def fetch_book_details_by_book_name(title):
         for item in raw_data['items']:
             data = item['volumeInfo']
 
-            if data['title'] == title:
+            if title in data['title']:
                 found_book = True
                 _update_book_dict_from_data(book_details, data)
 
@@ -145,7 +145,7 @@ def _update_default_values_to_book_dict(book_details):
     """
     book_details["author"] = book_details["author"] or "מחבר לא ידוע"
     book_details["page_count"] = book_details["page_count"] or 0
-    book_details["cover_image"] = book_details["cover_image"] or "אין תמונה זמינה לספר"
+    book_details["cover_image"] = book_details["cover_image"] or None
 
 
 def _extract_isbn_from_data(data):
