@@ -7,7 +7,9 @@ from . import models
 
 
 def home(request):
-    return render(request, 'catalog/home.html')
+    return render(request, 'catalog/home.html', context={
+        'books': models.Book.objects.all()
+    })
 
 
 class AddBookView(View):
@@ -34,6 +36,7 @@ class AddBookView(View):
             if self._save_book(request, book_data):
                 return redirect('home')
             return redirect('add_book')
+
 
         else:
             messages.info(request, 'הספר לא נמצא במאגר')
