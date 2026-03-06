@@ -40,34 +40,11 @@ def fetch_book_details_by_isbn(isbn):
             if not book_details["title"]:
                 book_details["title"] = data.get("title", None)
 
-            if not book_details["author"]:
-                authors = data.get("authors", [])
-                author = authors[0] if authors else None
-                book_details["author"] = author
-
-            if not book_details["description"]:
-                book_details["description"] = data.get("description", None)
-
-            if not book_details["published_date"]:
-                book_details["published_date"] = data.get("publishedDate", None)
-
-            if not book_details["page_count"]:
-                book_details["page_count"] = data.get("pageCount", None)
-
-            if not book_details["cover_image"]:
-                image_links = data.get("imageLinks", {})
-                thumbnail = image_links.get("thumbnail")
-                if thumbnail:
-                    # because we use https, if we will try to use an image from http it will failed
-                    secure_thumbnail = thumbnail.replace("http://", "https://")
-                    book_details["cover_image"] = secure_thumbnail
+            _update_book_dict_from_data(book_details, data)
 
     # if we didn't find the data from Google Books API, use a default data
     book_details["title"] = book_details["title"] or "שם ספר לא ידוע"
-    book_details["author"] = book_details["author"] or "מחבר לא ידוע"
-    book_details["page_count"] = book_details["page_count"] or 0
-    book_details["cover_image"] = book_details["cover_image"] or "אין תמונה זמינה לספר"
-
+    _update_default_values_to_book_dict(book_details)
     return book_details
 
 
@@ -111,30 +88,10 @@ def fetch_book_details_by_book_name(title):
 
             if data['title'] == title:
                 found_book = True
-                if not book_details["author"]:
-                    authors = data.get("authors", [])
-                    author = authors[0] if authors else None
-                    book_details["author"] = author
-
-                if not book_details["description"]:
-                    book_details["description"] = data.get("description", None)
-
-                if not book_details["published_date"]:
-                    book_details["published_date"] = data.get("publishedDate", None)
-
-                if not book_details["page_count"]:
-                    book_details["page_count"] = data.get("pageCount", None)
-
-                if not book_details["cover_image"]:
-                    image_links = data.get("imageLinks", {})
-                    thumbnail = image_links.get("thumbnail")
-                    if thumbnail:
-                        # because we use https, if we will try to use an image from http it will failed
-                        secure_thumbnail = thumbnail.replace("http://", "https://")
-                        book_details["cover_image"] = secure_thumbnail
+                _update_book_dict_from_data(book_details, data)
 
                 if not book_details["isbn"]:
-                    book_details["isbn"] = extract_isbn_from_data(data)
+                    book_details["isbn"] = _extract_isbn_from_data(data)
 
                 # if we found all of the values, no need to keep looking
                 if all(book_details.values()):
@@ -144,15 +101,54 @@ def fetch_book_details_by_book_name(title):
         return None
 
     # if we didn't find the data from Google Books API, use a default data
-    book_details["author"] = book_details["author"] or "מחבר לא ידוע"
-    book_details["page_count"] = book_details["page_count"] or 0
-    book_details["cover_image"] = book_details["cover_image"] or "אין תמונה זמינה לספר"
+    _update_default_values_to_book_dict(book_details)
     book_details["isbn"] = book_details["isbn"] or None
 
     return book_details
 
 
-def extract_isbn_from_data(data):
+def _update_book_dict_from_data(book_details, data):
+    """
+    the function updates the book_details dict based on data
+    :param book_details: book_details dict
+    :param data: the 'volumeInfo' key in item inside the response from Google Books
+    :return: updates the dict based on the values inside data
+    """
+    if not book_details["author"]:
+        authors = data.get("authors", [])
+        author = authors[0] if authors else None
+        book_details["author"] = author
+
+    if not book_details["description"]:
+        book_details["description"] = data.get("description", None)
+
+    if not book_details["published_date"]:
+        book_details["published_date"] = data.get("publishedDate", None)
+
+    if not book_details["page_count"]:
+        book_details["page_count"] = data.get("pageCount", None)
+
+    if not book_details["cover_image"]:
+        image_links = data.get("imageLinks", {})
+        thumbnail = image_links.get("thumbnail")
+        if thumbnail:
+            # because we use https, if we will try to use an image from http it will failed
+            secure_thumbnail = thumbnail.replace("http://", "https://")
+            book_details["cover_image"] = secure_thumbnail
+
+
+def _update_default_values_to_book_dict(book_details):
+    """
+    the function updates the values of some of the key in book_details in case the data wasn't found in Google Books
+    :param book_details: book_details dict
+    :return: updates the dict with default values
+    """
+    book_details["author"] = book_details["author"] or "מחבר לא ידוע"
+    book_details["page_count"] = book_details["page_count"] or 0
+    book_details["cover_image"] = book_details["cover_image"] or "אין תמונה זמינה לספר"
+
+
+def _extract_isbn_from_data(data):
     """
     The function tries to retrieve isbn_13 if possible, if not, isbn_10
     :param data: the volumeInfo dictionary
@@ -173,5 +169,3 @@ def extract_isbn_from_data(data):
         return isbn_10
 
     return None
-
-
