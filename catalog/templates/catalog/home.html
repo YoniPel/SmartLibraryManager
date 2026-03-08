@@ -17,7 +17,7 @@
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-            {% for book in page_obj %}
+            {% for book in books %}
             <div class="col mb-5">
                 <div class="card h-100">
                     {% if book.cover_image is not None %}
@@ -38,11 +38,24 @@
                     </div>
                 </div>
             </div>
+            {% empty %}
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center py-5">
+                    <div class="mb-4">
+                        <i class="bi bi-search" style="font-size: 3rem; color: #6c757d;"></i>
+                    </div>
+                    <h2 class="fw-bolder">לא נמצאו ספרים</h2>
+                    <p class="lead text-muted">לא הצלחנו למצוא תוצאות עבור "{{ request.GET.search }}".</p>
+                    <div class="mt-4">
+                        <a href="{% url 'home' %}" class="btn btn-primary">חזרה לרשימה המלאה</a>
+                </div>
+        </div>
+    </div>
             {% endfor %}
         </div>
     </div>
 
-    {% if page_obj.object_list %}
+    {% if is_paginated %}
     <div class="pagination d-flex justify-content-center">
         <span class="step-links " style="white-space: nowrap;">
             {% if page_obj.has_next %}
@@ -63,21 +76,6 @@
             {% endif %}
         </span>
     </div>
-
-    {% else %}
-    <div class="row justify-content-center">
-        <div class="col-md-6 text-center py-5">
-            <div class="mb-4">
-                <i class="bi bi-search" style="font-size: 3rem; color: #6c757d;"></i>
-            </div>
-            <h2 class="fw-bolder">לא נמצאו ספרים</h2>
-            <p class="lead text-muted">לא הצלחנו למצוא תוצאות עבור "{{ request.GET.search }}".</p>
-            <div class="mt-4">
-                <a href="{% url 'home' %}" class="btn btn-primary">חזרה לרשימה המלאה</a>
-            </div>
-        </div>
-    </div>
-
     {% endif %}
 
 </section>

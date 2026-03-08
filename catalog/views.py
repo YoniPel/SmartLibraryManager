@@ -7,26 +7,27 @@ from django.core.paginator import Paginator
 from . import models
 from django.conf import settings
 from django.db.models import Q
+from django.views.generic import ListView
 
 
-def home(request):
-    query = request.GET.get("search")
+class Home(ListView):
+    model = models.Book
+    ordering = ['-date_added_to_db']
+    context_object_name = 'books'
+    paginate_by = settings.PAGINATE_BY
+    template_name = 'catalog/home.html'
 
-    book_list = models.Book.objects.all()
+    def get_queryset(self):
+        queryset = super().get_queryset()
 
-    if query:
-        book_list = book_list.filter(
-            Q(title__icontains=query) | Q(isbn__icontains=query)
-        )
+        search_term = self.request.GET.get('search')
 
-    paginator = Paginator(book_list, settings.PAGINATE_BY)
+        if search_term:
+            queryset = queryset.filter(
+                Q(title__icontains=search_term) | Q(isbn__icontains=search_term)
+            )
 
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-
-    return render(request, 'catalog/home.html', context={
-        'page_obj': page_obj
-    })
+        return queryset
 
 
 class AddBookView(View):
