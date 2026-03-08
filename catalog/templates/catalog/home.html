@@ -1,6 +1,19 @@
 {% extends "catalog/index.html" %}
 {% block content %}
 {% load static %}
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">חיפוש ספרים</h1>
+<!--                    <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>-->
+            <form method="GET" class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="כתוב שם של ספר או ISBN" aria-label="Search" name="search" >
+                <button class="btn btn-outline-success my-2 my-sm-4" type="submit">חפש</button>
+            </form>
+        </div>
+    </div>
+</header>
+
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
@@ -26,28 +39,46 @@
                 </div>
             </div>
             {% endfor %}
-            <div class="pagination ">
-                <span class="step-links " style="white-space: nowrap;">
-                    {% if page_obj.has_next %}
-                        <a href="?page={{ page_obj.paginator.num_pages }}">&laquo; אחרון</a>
-                        <a href="?page={{ page_obj.next_page_number }}">הבא</a>
-                    {% endif %}
+        </div>
+    </div>
 
-                    <span class="current">
-                        עמוד
-                        {{ page_obj.number }}
-                        מתוך
-                        {{ page_obj.paginator.num_pages }}
-                    </span>
+    {% if page_obj.object_list %}
+    <div class="pagination d-flex justify-content-center">
+        <span class="step-links " style="white-space: nowrap;">
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.paginator.num_pages }}">&laquo; אחרון</a>
+                <a href="?page={{ page_obj.next_page_number }}">הבא</a>
+            {% endif %}
 
-                    {% if page_obj.has_previous %}
-                        <a href="?page={{ page_obj.previous_page_number }}">קודם</a>
-                        <a href="?page=1"> ראשון&raquo;</a>
-                    {% endif %}
-                </span>
+            <span class="current">
+                עמוד
+                {{ page_obj.number }}
+                מתוך
+                {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">קודם</a>
+                <a href="?page=1"> ראשון&raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+    {% else %}
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center py-5">
+            <div class="mb-4">
+                <i class="bi bi-search" style="font-size: 3rem; color: #6c757d;"></i>
+            </div>
+            <h2 class="fw-bolder">לא נמצאו ספרים</h2>
+            <p class="lead text-muted">לא הצלחנו למצוא תוצאות עבור "{{ request.GET.search }}".</p>
+            <div class="mt-4">
+                <a href="{% url 'home' %}" class="btn btn-primary">חזרה לרשימה המלאה</a>
             </div>
         </div>
     </div>
+
+    {% endif %}
 
 </section>
 

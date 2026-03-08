@@ -6,10 +6,19 @@ from django.views import View
 from django.core.paginator import Paginator
 from . import models
 from django.conf import settings
+from django.db.models import Q
 
 
 def home(request):
+    query = request.GET.get("search")
+
     book_list = models.Book.objects.all()
+
+    if query:
+        book_list = book_list.filter(
+            Q(title__icontains=query) | Q(isbn__icontains=query)
+        )
+
     paginator = Paginator(book_list, settings.PAGINATE_BY)
 
     page_number = request.GET.get("page")
