@@ -3,12 +3,20 @@ from . import forms
 from . import services
 from django.contrib import messages
 from django.views import View
+from django.core.paginator import Paginator
 from . import models
+from django.conf import settings
 
 
 def home(request):
+    book_list = models.Book.objects.all()
+    paginator = Paginator(book_list, settings.PAGINATE_BY)
+
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
     return render(request, 'catalog/home.html', context={
-        'books': models.Book.objects.all()
+        'page_obj': page_obj
     })
 
 
@@ -36,7 +44,6 @@ class AddBookView(View):
             if self._save_book(request, book_data):
                 return redirect('home')
             return redirect('add_book')
-
 
         else:
             messages.info(request, 'הספר לא נמצא במאגר')

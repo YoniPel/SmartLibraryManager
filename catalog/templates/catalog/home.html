@@ -4,8 +4,7 @@
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-
-            {% for book in books %}
+            {% for book in page_obj %}
             <div class="col mb-5">
                 <div class="card h-100">
                     {% if book.cover_image is not None %}
@@ -27,8 +26,29 @@
                 </div>
             </div>
             {% endfor %}
+            <div class="pagination ">
+                <span class="step-links " style="white-space: nowrap;">
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.paginator.num_pages }}">&laquo; אחרון</a>
+                        <a href="?page={{ page_obj.next_page_number }}">הבא</a>
+                    {% endif %}
+
+                    <span class="current">
+                        עמוד
+                        {{ page_obj.number }}
+                        מתוך
+                        {{ page_obj.paginator.num_pages }}
+                    </span>
+
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}">קודם</a>
+                        <a href="?page=1"> ראשון&raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
         </div>
     </div>
+
 </section>
 
 
