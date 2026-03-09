@@ -1,0 +1,45 @@
+{% extends "catalog/index.html" %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4 mb-4">
+
+            {% if book.cover_image is not None %}
+                <img class="card-img-top" src="{{ book.cover_image }}" style="width: 100%;" alt="{{ book.title }}" />
+            {% else %}
+                <img class="card-img-top" src="{% static 'catalog/assets/placeholder_image.jpg' %}" style="width: 100%;" alt="{{ book.title }}" />
+            {% endif %}
+        </div>
+
+        <div class="col-md-8">
+            <h1 class="display-4 fw-bold mb-2">{{ book.title }}</h1>
+            <h3 class="text-muted mb-4">מאת: {{ book.author }}</h3>
+
+            <div class="d-flex flex-wrap gap-2 mb-4">
+                <span class="badge bg-primary fs-6">ISBN: {{ book.isbn|default:"לא ידוע" }}</span>
+                <span class="badge bg-info text-dark fs-6">עמודים: {{ book.page_count|default:"0" }}</span>
+                <span class="badge bg-secondary fs-6">פורסם: {{ book.published_date|default:"תאריך לא ידוע" }}</span>
+            </div>
+
+            <hr>
+
+            <h4 class="mt-4">על הספר:</h4>
+            <p class="lead text-break" style="line-height: 1.8;">
+                {{ book.description|default:"אין תיאור זמין עבור ספר זה."|safe }}
+            </p>
+
+            <div class="mt-5 p-3 bg-light rounded border">
+                <p class="mb-1 text-muted small">נוסף למערכת בתאריך: {{ book.date_added_to_db|date:"d/m/Y H:i" }}</p>
+                <p class="mb-0 text-muted small">עדכון אחרון: {{ book.last_modified|date:"d/m/Y H:i" }}</p>
+            </div>
+
+            <div class="mt-4 mb-5">
+                <a href="{% url 'home' %}" class="btn btn-outline-primary shadow-sm">
+                    <i class="bi bi-arrow-right"></i> חזרה לספריה
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

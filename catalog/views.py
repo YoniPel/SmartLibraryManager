@@ -3,11 +3,11 @@ from . import forms
 from . import services
 from django.contrib import messages
 from django.views import View
-from django.core.paginator import Paginator
 from . import models
 from django.conf import settings
 from django.db.models import Q
 from django.views.generic import ListView
+from django.shortcuts import get_object_or_404
 
 
 class Home(ListView):
@@ -94,3 +94,10 @@ class AddBookView(View):
         new_book.save()
         messages.success(request, f'הספר {new_book.title} נשמר בהצלחה! ')
         return True
+
+
+def book_page(request, pk, book_name):
+    book = get_object_or_404(models.Book, pk=pk)
+    return render(request, 'catalog/book_page.html', context={
+        'book': book
+    })

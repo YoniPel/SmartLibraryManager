@@ -34,7 +34,7 @@
                     </div>
                     <!-- Product actions-->
                     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">פרטים</a></div>
+                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'book_view' book.id book.title %}">פרטים</a></div>
                     </div>
                 </div>
             </div>
@@ -48,9 +48,9 @@
                     <p class="lead text-muted">לא הצלחנו למצוא תוצאות עבור "{{ request.GET.search }}".</p>
                     <div class="mt-4">
                         <a href="{% url 'home' %}" class="btn btn-primary">חזרה לרשימה המלאה</a>
+                    </div>
                 </div>
-        </div>
-    </div>
+            </div>
             {% endfor %}
         </div>
     </div>
