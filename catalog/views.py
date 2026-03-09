@@ -6,8 +6,7 @@ from django.views import View
 from . import models
 from django.conf import settings
 from django.db.models import Q
-from django.views.generic import ListView
-from django.shortcuts import get_object_or_404
+from django.views.generic import ListView, DetailView
 
 
 class Home(ListView):
@@ -96,8 +95,7 @@ class AddBookView(View):
         return True
 
 
-def book_page(request, pk, book_name):
-    book = get_object_or_404(models.Book, pk=pk)
-    return render(request, 'catalog/book_page.html', context={
-        'book': book
-    })
+class BookPage(DetailView):
+    model = models.Book
+    template_name = 'catalog/book_page.html'
+    context_object_name = 'book'

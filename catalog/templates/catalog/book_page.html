@@ -18,8 +18,8 @@
 
             <div class="d-flex flex-wrap gap-2 mb-4">
                 <span class="badge bg-primary fs-6">ISBN: {{ book.isbn|default:"לא ידוע" }}</span>
-                <span class="badge bg-info text-dark fs-6">עמודים: {{ book.page_count|default:"0" }}</span>
-                <span class="badge bg-secondary fs-6">פורסם: {{ book.published_date|default:"תאריך לא ידוע" }}</span>
+                <span class="badge bg-warning text-dark fs-6">עמודים: {{ book.page_count }}</span>
+                <span class="badge bg-success fs-6">פורסם: {{ book.published_date|default:"לא ידוע" }}</span>
             </div>
 
             <hr>
