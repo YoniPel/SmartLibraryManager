@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 # Create your models here.
@@ -25,3 +26,8 @@ class Book(models.Model):
         ordering = ["-date_added_to_db", "author"]
 
         unique_together = ('title', 'isbn')
+
+    def get_absolute_url(self):
+        return reverse(f'book_view', kwargs={
+            'pk': self.pk
+        })

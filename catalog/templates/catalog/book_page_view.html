@@ -34,6 +34,12 @@
                 <p class="mb-0 text-muted small">עדכון אחרון: {{ book.last_modified|date:"d/m/Y H:i" }}</p>
             </div>
 
+            <div class="mt-4">
+                <a href="{% url 'book_edit' book.id %}" class="btn btn-outline-primary shadow-sm">
+                    <i></i> ערוך ספר
+                </a>
+            </div>
+
             <div class="mt-4 mb-5">
                 <a href="{% url 'home' %}" class="btn btn-outline-primary shadow-sm">
                     <i class="bi bi-arrow-right"></i> חזרה לספריה

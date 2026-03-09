@@ -6,7 +6,7 @@ from django.views import View
 from . import models
 from django.conf import settings
 from django.db.models import Q
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, UpdateView
 
 
 class Home(ListView):
@@ -95,7 +95,15 @@ class AddBookView(View):
         return True
 
 
-class BookPage(DetailView):
+class BookPageView(DetailView):
     model = models.Book
-    template_name = 'catalog/book_page.html'
+    template_name = 'catalog/book_page_view.html'
     context_object_name = 'book'
+
+
+class BookPageEdit(UpdateView):
+    model = models.Book
+    fields = '__all__'
+    template_name = 'catalog/book_page_edit.html'
+
+
