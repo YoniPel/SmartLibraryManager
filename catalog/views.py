@@ -51,8 +51,7 @@ class AddBookView(View):
             book_data = self._get_data_by_book_name(request)
 
         if book_data:
-            if self._save_book(request, book_data):
-                return redirect('home')
+            self._save_book(request, book_data)
             return redirect('add_book')
 
         else:
@@ -112,3 +111,5 @@ class BookPageDelete(DeleteView):
     model = models.Book
     template_name = 'catalog/book_page_delete.html'
     success_url = reverse_lazy('home')
+
+
