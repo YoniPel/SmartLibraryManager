@@ -40,8 +40,14 @@
                 </a>
             </div>
 
+            <div class="mt-4">
+                <a href="{% url 'book_delete' book.id %}" class="btn btn-outline-danger shadow-sm">
+                    <i></i> מחק ספר
+                </a>
+            </div>
+
             <div class="mt-4 mb-5">
-                <a href="{% url 'home' %}" class="btn btn-outline-primary shadow-sm">
+                <a href="{% url 'home' %}" class="btn btn-outline-success shadow-sm">
                     <i class="bi bi-arrow-right"></i> חזרה לספריה
                 </a>
             </div>

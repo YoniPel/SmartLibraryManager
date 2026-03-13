@@ -2,11 +2,12 @@ from django.shortcuts import render, redirect
 from . import forms
 from . import services
 from django.contrib import messages
+from django.urls import reverse_lazy
 from django.views import View
 from . import models
 from django.conf import settings
 from django.db.models import Q
-from django.views.generic import ListView, DetailView, UpdateView
+from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 
 
 class Home(ListView):
@@ -107,3 +108,7 @@ class BookPageEdit(UpdateView):
     template_name = 'catalog/book_page_edit.html'
 
 
+class BookPageDelete(DeleteView):
+    model = models.Book
+    template_name = 'catalog/book_page_delete.html'
+    success_url = reverse_lazy('home')
