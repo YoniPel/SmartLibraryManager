@@ -20,11 +20,7 @@
             {% for book in books %}
             <div class="col mb-5">
                 <div class="card h-100">
-                    {% if book.cover_image is not None %}
-                        <img class="card-img-top" src="{{ book.cover_image }}" width="200" height="250" alt="{{ book.title }}" />
-                    {% else %}
-                        <img class="card-img-top" src="{% static 'catalog/assets/placeholder_image.jpg' %}" width="200" height="250" alt="{{ book.title }}" />
-                    {% endif %}
+                    <img class="card-img-top" src="{{ book.get_cover_image }}" style="width: 100%;" alt="{{ book.title }}" />
                     <!-- Product details-->
                     <div class="card-body p-4">
                         <div class="text-center">

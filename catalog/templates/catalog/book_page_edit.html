@@ -4,12 +4,7 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-4 mb-4">
-
-            {% if book.cover_image is not None %}
-                <img class="card-img-top" src="{{ book.cover_image }}" style="width: 100%;" alt="{{ book.title }}" />
-            {% else %}
-                <img class="card-img-top" src="{% static 'catalog/assets/placeholder_image.jpg' %}" style="width: 100%;" alt="{{ book.title }}" />
-            {% endif %}
+            <img class="card-img-top" src="{{ book.get_cover_image }}" style="width: 100%;" alt="{{ book.title }}" />
         </div>
 
         <div class="col-md-8">
@@ -26,9 +21,8 @@
 
             <div class="card shadow-sm p-4 bg-light">
                 <h4 class="mb-4 text-primary">עריכת פרטי הספר</h4>
-                <form method="post" novalidate>
+                <form method="post" novalidate enctype="multipart/form-data">
                 {% csrf_token %}
-
                 {% for field in form %}
                 <div class="mb-3">
                     <label class="form-label fw-bold text-secondary">

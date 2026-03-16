@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 from catalog.views import Home, AddBookView, BookPageView, BookPageEdit, BookPageDelete
 
 urlpatterns = [
@@ -26,3 +28,7 @@ urlpatterns = [
     path('book/<int:pk>/edit', BookPageEdit.as_view(), name='book_edit'),
     path('book/<int:pk>/delete', BookPageDelete.as_view(), name='book_delete')
 ]
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

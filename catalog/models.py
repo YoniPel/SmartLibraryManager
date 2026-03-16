@@ -11,6 +11,10 @@ class Book(models.Model):
     published_date = models.CharField(max_length=20, blank=True, null=True, verbose_name="תאריך הוצאה")
     page_count = models.IntegerField(blank=True, null=True, verbose_name="מספר עמודים")
     cover_image = models.URLField(blank=True, null=True, verbose_name="תמונת כריכה")
+    cover_image_file = models.ImageField(
+        blank=True, null=True,
+        upload_to='book_images/', verbose_name='תמונת כריכה ידנית'
+    )
 
     isbn = models.CharField(max_length=13, blank=True, null=True, verbose_name="isbn")
 
@@ -31,3 +35,13 @@ class Book(models.Model):
         return reverse(f'book_view', kwargs={
             'pk': self.pk
         })
+
+    @property
+    def get_cover_image(self):
+        if self.cover_image_file:
+            return self.cover_image_file.url
+
+        if self.cover_image:
+            return self.cover_image
+
+        return "/static/catalog/assets/placeholder_image.jpg"
