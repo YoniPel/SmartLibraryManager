@@ -1,0 +1,26 @@
+{% extends "catalog/index.html" %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <img class="card-img-top" src="{{ book.get_cover_image }}"
+                 style="width: 100%; object-fit: cover;" alt="{{ book.title }}" />
+        </div>
+
+        <div class="col-md-8">
+            <h1 class="display-4 fw-bold mb-2">{{ book.title }}</h1>
+            <h3 class="text-muted mb-4">מאת: {{ book.author }}</h3>
+
+            <div class="d-flex flex-wrap gap-2 mb-4">
+                <span class="badge bg-primary fs-6">ISBN: {{ book.isbn|default:"לא ידוע" }}</span>
+                <span class="badge bg-warning text-dark fs-6">עמודים: {{ book.page_count }}</span>
+                <span class="badge bg-success fs-6">פורסם: {{ book.published_date|default:"לא ידוע" }}</span>
+            </div>
+
+            <hr>
+            {% block book_content %} {% endblock book_content %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,59 +1,41 @@
-{% extends "catalog/index.html" %}
+{% extends "catalog/book_page_index.html" %}
 {% load static %}
-{% block content %}
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-4 mb-4">
-            <img class="card-img-top" src="{{ book.get_cover_image }}" style="width: 100%;" alt="{{ book.title }}" />
+{% block book_content %}
+
+
+<div class="card shadow-sm p-4 bg-light">
+    <h4 class="mb-4 text-primary">עריכת פרטי הספר</h4>
+    <form method="post" novalidate enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="mb-3">
+        <label class="form-label fw-bold text-secondary">
+            {{ field.label }}
+        </label>
+
+        <div class="input-group">
+            {{ field }}
         </div>
 
-        <div class="col-md-8">
-            <h1 class="display-4 fw-bold mb-2">{{ book.title }}</h1>
-            <h3 class="text-muted mb-4">מאת: {{ book.author }}</h3>
+        {% if field.help_text %}
+            <div class="form-text text-muted">{{ field.help_text }}</div>
+        {% endif %}
 
-            <div class="d-flex flex-wrap gap-2 mb-4">
-                <span class="badge bg-primary fs-6">ISBN: {{ book.isbn|default:"לא ידוע" }}</span>
-                <span class="badge bg-warning text-dark fs-6">עמודים: {{ book.page_count }}</span>
-                <span class="badge bg-success fs-6">פורסם: {{ book.published_date|default:"לא ידוע" }}</span>
-            </div>
-
-            <hr>
-
-            <div class="card shadow-sm p-4 bg-light">
-                <h4 class="mb-4 text-primary">עריכת פרטי הספר</h4>
-                <form method="post" novalidate enctype="multipart/form-data">
-                {% csrf_token %}
-                {% for field in form %}
-                <div class="mb-3">
-                    <label class="form-label fw-bold text-secondary">
-                        {{ field.label }}
-                    </label>
-
-                    <div class="input-group">
-                        {{ field }}
-                    </div>
-
-                    {% if field.help_text %}
-                        <div class="form-text text-muted">{{ field.help_text }}</div>
-                    {% endif %}
-
-                    {% for error in field.errors %}
-                        <div class="text-danger small">{{ error }}</div>
-                    {% endfor %}
-                </div>
-            {% endfor %}
-
-            <div class="d-grid gap-2 d-md-flex justify-content-md-start mt-4">
-                <button type="submit" class="btn btn-primary px-4 shadow-sm">
-                    <i class="bi bi-check-lg"></i> שמור שינויים
-                </button>
-                <a href="{{ book.get_absolute_url }}" class="btn btn-outline-secondary px-4">
-                    ביטול
-                </a>
-                    </div>
-                </form>
-            </div>
-        </div>
+        {% for error in field.errors %}
+            <div class="text-danger small">{{ error }}</div>
+        {% endfor %}
     </div>
+{% endfor %}
+
+<div class="d-grid gap-2 d-md-flex justify-content-md-start mt-4">
+    <button type="submit" class="btn btn-primary px-4 shadow-sm">
+        <i class="bi bi-check-lg"></i> שמור שינויים
+    </button>
+    <a href="{{ book.get_absolute_url }}" class="btn btn-outline-secondary px-4">
+        ביטול
+    </a>
+        </div>
+    </form>
 </div>
-{% endblock content %}
+
+{% endblock book_content %}
