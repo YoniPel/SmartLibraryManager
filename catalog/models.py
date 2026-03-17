@@ -16,6 +16,9 @@ class Book(models.Model):
         upload_to='book_images/', verbose_name='תמונת כריכה ידנית'
     )
 
+    is_loaned = models.BooleanField(default=False, help_text='האם הספר כרגע מושאל למישהו', verbose_name='מושאל?')
+    person_loaned_to = models.CharField(null=True, blank=True, verbose_name='שם השואל')
+
     isbn = models.CharField(max_length=13, blank=True, null=True, verbose_name="isbn")
 
     date_added_to_db = models.DateTimeField(auto_now_add=True, verbose_name="תאריך הוספה למערכת")
@@ -36,6 +39,19 @@ class Book(models.Model):
             'pk': self.pk
         })
 
+    def save(self, *args, **kwargs):
+        if not self.is_loaned:
+            self.person_loaned_to = None
+
+        elif self.person_loaned_to:
+            self.is_loaned = True
+
+        else:
+            self.is_loaned = False
+            self.person_loaned_to = None
+
+        super().save(*args, **kwargs)
+
     @property
     def get_cover_image(self):
         if self.cover_image_file:
@@ -45,3 +61,4 @@ class Book(models.Model):
             return self.cover_image
 
         return "/static/catalog/assets/placeholder_image.jpg"
+

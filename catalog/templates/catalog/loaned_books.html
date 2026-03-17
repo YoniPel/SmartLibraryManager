@@ -1,0 +1,11 @@
+{% extends "catalog/home.html" %}
+{% load static %}
+{% block header_title %} חיפוש ספרים מושאלים {% endblock header_title %}
+{% block more_book_details %}
+<div class="mt-2">
+    <span class="badge rounded-pill bg-success shadow-sm">
+        <i class="bi bi-person-fill"></i> מושאל ל: {{ book.person_loaned_to }}
+    </span>
+</div>
+
+{% endblock more_book_details %}

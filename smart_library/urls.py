@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from catalog.views import Home, AddBookView, BookPageView, BookPageEdit, BookPageDelete
+from catalog.views import Home, AddBookView, BookPageView, BookPageEdit, BookPageDelete, LoanedBooks
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -26,7 +26,8 @@ urlpatterns = [
     path('add_book/', AddBookView.as_view(), name='add_book'),
     path('book/<int:pk>/view', BookPageView.as_view(), name='book_view'),
     path('book/<int:pk>/edit', BookPageEdit.as_view(), name='book_edit'),
-    path('book/<int:pk>/delete', BookPageDelete.as_view(), name='book_delete')
+    path('book/<int:pk>/delete', BookPageDelete.as_view(), name='book_delete'),
+    path('loaned_books/', LoanedBooks.as_view(), name='loaned_books')
 ]
 
 

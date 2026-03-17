@@ -113,3 +113,14 @@ class BookPageDelete(DeleteView):
     success_url = reverse_lazy('home')
 
 
+class LoanedBooks(ListView):
+    model = models.Book
+    ordering = ['-date_added_to_db']
+    context_object_name = 'books'
+    paginate_by = settings.PAGINATE_BY
+    template_name = 'catalog/loaned_books.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        return queryset.filter(Q(is_loaned=True))
