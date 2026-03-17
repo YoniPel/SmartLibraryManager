@@ -36,7 +36,7 @@
                             </div>
                             {% if book.is_loaned %}
                                 <div class="mt-2">
-                                    <span class="badge rounded-pill bg-success shadow-sm">
+                                    <span class="badge rounded-pill bg-success shadow-sm text-wrap d-inline-block" style="max-width: 100%; text-align: right;">
                                         <i class="bi bi-person-fill"></i> מושאל ל: {{ book.person_loaned_to }}
                                     </span>
                                 </div>
