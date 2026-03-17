@@ -123,4 +123,14 @@ class LoanedBooks(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
 
-        return queryset.filter(Q(is_loaned=True))
+        queryset = queryset.filter(Q(is_loaned=True))
+
+        search_term = self.request.GET.get('search')
+
+        if search_term:
+            queryset = queryset.filter(
+                Q(title__icontains=search_term) | Q(isbn__icontains=search_term)
+            )
+
+        return queryset
+
