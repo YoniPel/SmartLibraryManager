@@ -40,10 +40,8 @@ class Book(models.Model):
         })
 
     def save(self, *args, **kwargs):
-        if not self.is_loaned:
-            self.person_loaned_to = None
 
-        elif self.person_loaned_to:
+        if self.person_loaned_to:
             self.is_loaned = True
 
         else:
