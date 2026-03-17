@@ -36,7 +36,7 @@ GOOGLE_BOOKS_API_KEY = os.getenv('GOOGLE_BOOKS_API_KEY')
 ALLOWED_HOSTS = []
 
 # The number of books in each page
-PAGINATE_BY = 8
+PAGINATE_BY = 16
 
 # Application definition
 
