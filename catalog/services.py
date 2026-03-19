@@ -20,7 +20,7 @@ def fetch_book_details_by_isbn(isbn):
         print(f"Request failed: {e}")
         return None
 
-    if raw_data['totalItems'] == 0:
+    if raw_data.get('totalItems', 0) == 0:
         return None
 
     book_details = {
@@ -66,7 +66,7 @@ def fetch_book_details_by_book_name(title):
         print(f"Request failed: {e}")
         return None
 
-    if raw_data['totalItems'] == 0:
+    if raw_data.get('totalItems', 0) == 0:
         return None
 
     book_details = {
