@@ -2,6 +2,12 @@ from django.db import models
 from django.urls import reverse
 
 
+LOCATIONS_CHOICES = [
+    ("A", "סלון"),
+    ("B", "מסדרון")
+]
+
+
 # Create your models here.
 class Book(models.Model):
     title = models.CharField(max_length=100, verbose_name="כותרת")
@@ -15,6 +21,8 @@ class Book(models.Model):
         blank=True, null=True,
         upload_to='book_images/', verbose_name='תמונת כריכה ידנית'
     )
+
+    location = models.CharField(blank=True, null=True, choices=LOCATIONS_CHOICES)
 
     is_loaned = models.BooleanField(default=False, help_text='האם הספר כרגע מושאל למישהו', verbose_name='מושאל?')
     person_loaned_to = models.CharField(null=True, blank=True, verbose_name='שם השואל')
@@ -43,6 +51,7 @@ class Book(models.Model):
 
         if self.person_loaned_to:
             self.is_loaned = True
+            self.location = None
 
         else:
             self.is_loaned = False

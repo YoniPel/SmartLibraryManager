@@ -21,6 +21,10 @@
                 {% else %}
                     <span class="badge bg-secondary fs-6">הספר מושאל ל{{book.person_loaned_to}}</span>
                 {% endif %}
+
+                {% if book.location %}
+                    <span class="badge bg-info fs-6">הספר נמצא ב{{book.get_location_display}}</span>
+                {% endif %}
             </div>
 
             <hr>
