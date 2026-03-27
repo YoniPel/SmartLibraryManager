@@ -63,6 +63,7 @@ A full-stack, containerized web application for managing your personal library w
     # Django settings
     DEBUG=True
     SECRET_KEY=django-secret-key-here
+    ALLOWED_HOSTS=localhost
 
     # Postgres settings
     DB_NAME=db-name
@@ -70,6 +71,8 @@ A full-stack, containerized web application for managing your personal library w
     DB_PASSWORD=db-password
     DB_HOST=db
     DB_PORT=5432
+  
+    DATABASE_URL=postgres://db-user:db-password@db:5432/db-name
 
     # Google Books API key 
     GOOGLE_BOOKS_API_KEY=Google-Books-API-key
