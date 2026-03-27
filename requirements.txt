@@ -6,3 +6,4 @@ requests
 Pillow
 dj-database-url
 gunicorn
+whitenoise
