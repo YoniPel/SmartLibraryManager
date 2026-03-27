@@ -34,7 +34,9 @@ DEBUG = os.getenv('DEBUG', 'False') == 'True'
 # Google Books API key
 GOOGLE_BOOKS_API_KEY = os.getenv('GOOGLE_BOOKS_API_KEY')
 
-ALLOWED_HOSTS = ["*"]
+# ALLOWED_HOSTS specifies which hostnames/domains are allowed to serve this application.
+# Loaded from environment variable with defaults for local development.
+ALLOWED_HOSTS = [h.strip() for h in os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')]
 
 # The number of books in each page
 PAGINATE_BY = 16
