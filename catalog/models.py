@@ -43,7 +43,7 @@ class Book(models.Model):
         unique_together = ('title', 'isbn')
 
     def get_absolute_url(self):
-        return reverse(f'book_view', kwargs={
+        return reverse('book_view', kwargs={
             'pk': self.pk
         })
 
@@ -56,6 +56,7 @@ class Book(models.Model):
         else:
             self.is_loaned = False
             self.person_loaned_to = None
+
 
         super().save(*args, **kwargs)
 
