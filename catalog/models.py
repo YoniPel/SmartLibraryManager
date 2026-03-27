@@ -22,7 +22,7 @@ class Book(models.Model):
         upload_to='book_images/', verbose_name='תמונת כריכה ידנית'
     )
 
-    location = models.CharField(blank=True, null=True, choices=LOCATIONS_CHOICES)
+    location = models.CharField(blank=True, null=True, choices=LOCATIONS_CHOICES, verbose_name='מיקום')
 
     is_loaned = models.BooleanField(default=False, help_text='האם הספר כרגע מושאל למישהו', verbose_name='מושאל?')
     person_loaned_to = models.CharField(null=True, blank=True, verbose_name='שם השואל')
