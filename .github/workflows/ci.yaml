@@ -1,0 +1,44 @@
+name: GitHub Actions CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: mydb
+        ports:
+            - 5432:5432
+
+    env:
+        DATABASE_URL: postgres://postgres:postgres@localhost:5432/mydb
+        SECRET_KEY: dummy_secret_key
+        DEBUG: 'True'
+
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v4
+      - name: set up Python 3.12
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.12
+      - name: install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: run migrations
+        run: |
+          python manage.py migrate
+      - name: run tests
+        run: |
+          python manage.py test
