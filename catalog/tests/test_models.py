@@ -1,5 +1,5 @@
 from django.test import TestCase
-from catalog.models import Book
+from catalog.models import Book, Location
 from django.urls import reverse
 
 class BookTest(TestCase):
@@ -47,7 +47,8 @@ class BookTest(TestCase):
 
 
     def test_save_sets_location_to_none_when_person_loaned_to_exists(self):
-        self.book.location = "shelf A"
+        location = Location.objects.create(name="shelf A")
+        self.book.location = location
         self.book.person_loaned_to = "John Doe"
         self.book.save()
         self.assertIsNone(self.book.location)
