@@ -2,13 +2,18 @@ from django.db import models
 from django.urls import reverse
 
 
-LOCATIONS_CHOICES = [
-    ("A", "סלון"),
-    ("B", "מסדרון")
-]
+class Location(models.Model):
+    name = models.CharField(max_length=100, null=True, verbose_name="מיקום")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "מיקום"
+        verbose_name_plural = "מיקומים"
+        ordering = ["name"]
 
 
-# Create your models here.
 class Book(models.Model):
     title = models.CharField(max_length=100, verbose_name="כותרת")
     author = models.CharField(max_length=100, verbose_name="מחבר")
@@ -22,7 +27,7 @@ class Book(models.Model):
         upload_to='book_images/', verbose_name='תמונת כריכה ידנית'
     )
 
-    location = models.CharField(blank=True, null=True, choices=LOCATIONS_CHOICES, verbose_name='מיקום')
+    location = models.ForeignKey(Location, blank=True, null=True, on_delete=models.SET_NULL, verbose_name="מיקום")
 
     is_loaned = models.BooleanField(default=False, help_text='האם הספר כרגע מושאל למישהו', verbose_name='מושאל?')
     person_loaned_to = models.CharField(null=True, blank=True, verbose_name='שם השואל')
