@@ -12,3 +12,10 @@ class BookTitleForm(forms.ModelForm):
     class Meta:
         model = models.Book
         fields = ["title"]
+
+
+class BookForm(forms.ModelForm):
+    class Meta:
+        model = models.Book
+        fields = '__all__'
+

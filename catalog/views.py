@@ -36,10 +36,25 @@ class AddBookView(View):
     def get(self, request):
         return render(request, self.template_name, context={
             'isbn_form': forms.BookISBNForm(),
-            'title_form': forms.BookTitleForm()
+            'title_form': forms.BookTitleForm(),
+            'book_form': forms.BookForm()
         })
 
     def post(self, request):
+        # if it's a manual save
+        if 'submit_manual' in request.POST:
+            book_form = forms.BookForm(request.POST, request.FILES)
+            if book_form.is_valid():
+                book_form.save()
+                messages.success(request, 'הספר נשמר ידנית בהצלחה!')
+                return redirect('add_book')
+
+            return render(request, self.template_name, context={
+                'isbn_form': forms.BookISBNForm(),
+                'title_form': forms.BookTitleForm(),
+                'book_form': book_form,
+            })
+
         isbn_form = forms.BookISBNForm(request.POST)
         title_form = forms.BookTitleForm(request.POST)
 

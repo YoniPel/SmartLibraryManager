@@ -17,6 +17,9 @@
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="title-tab" data-bs-toggle="tab" data-bs-target="#isbn-form-pane" type="button" role="tab">לפי ISBN</button>
                         </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="book-tab" data-bs-toggle="tab" data-bs-target="#book-form-pane" type="button" role="tab">ידנית</button>
+                        </li>
                     </ul>
 
                     <div class="tab-content" id="bookFormTabContent">
@@ -41,7 +44,7 @@
                             <form method="post">
                                 {% csrf_token %}
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold">מספר ISBN</label>
+                                    <label class="form-label fw-bold">ISBN</label>
                                     {{ isbn_form.isbn }}
                                     <div class="form-text">הזן ISBN בן 10 או 13 ספרות.</div>
                                 </div>
@@ -54,8 +57,73 @@
                         </div>
 
 
+                        <div class="tab-pane fade" id="book-form-pane" role="tabpanel">
+                            <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
 
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">
+                                        שם הספר
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    {{ book_form.title }}
+                                </div>
 
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">
+                                        מחבר
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    {{ book_form.author }}
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">תיאור</label>
+                                    {{ book_form.description }}
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">תאריך הוצאה</label>
+                                    {{ book_form.published_date }}
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">מספר עמודים</label>
+                                    {{ book_form.page_count }}
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">ISBN</label>
+                                    {{ book_form.isbn }}
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">תמונת כריכה (URL)</label>
+                                    {{ book_form.cover_image }}
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">או העלאת תמונה</label>
+                                    {{ book_form.cover_image_file }}
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">מיקום</label>
+                                    {{ book_form.location }}
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">למי הושאל</label>
+                                    {{ book_form.person_loaned_to }}
+                                </div>
+
+                                <div class="d-grid mt-4">
+                                    <button type="submit" name="submit_manual" class="btn btn-success">
+                                         הוסף ספר ידנית<i class="bi bi-plus-circle me-2"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
