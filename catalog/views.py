@@ -12,7 +12,7 @@ from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 
 class Home(ListView):
     model = models.Book
-    ordering = ['-date_added_to_db']
+    ordering = ['title']
     context_object_name = 'books'
     paginate_by = settings.PAGINATE_BY
     template_name = 'catalog/home.html'
