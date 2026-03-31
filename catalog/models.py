@@ -73,5 +73,5 @@ class Book(models.Model):
         if self.cover_image:
             return self.cover_image
 
-        return "/static/catalog/assets/placeholder_image.jpg"
+        return "/static/catalog/assets/placeholder.jpg"
 

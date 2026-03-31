@@ -42,7 +42,7 @@ class BookTest(TestCase):
         )
 
     def test_get_cover_image_returns_placeholder_when_no_image_exists(self):
-        expected_url = "/static/catalog/assets/placeholder_image.jpg"
+        expected_url = "/static/catalog/assets/placeholder.jpg"
         self.assertEqual(self.book.get_cover_image, expected_url)
 
 
