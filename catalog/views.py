@@ -93,7 +93,8 @@ class AddBookView(View):
             messages.info(request, 'הספר לא נמצא במאגר')
             return render(request, self.template_name, context={
                 'isbn_form': isbn_form if isbn_form.is_bound else forms.BookISBNForm(),
-                'title_form': title_form if title_form.is_bound else forms.BookTitleForm()
+                'title_form': title_form if title_form.is_bound else forms.BookTitleForm(),
+                'book_form': forms.BookForm(),
             })
 
     def _get_data_by_isbn(self, request):
