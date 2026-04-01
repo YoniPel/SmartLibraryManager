@@ -22,5 +22,6 @@ class BookForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['location'].initial = Location.objects.get(pk=1)
-
+        default_location = Location.objects.filter(pk=2).first()
+        if default_location:
+            self.fields['location'].initial = default_location
