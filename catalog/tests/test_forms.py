@@ -53,7 +53,7 @@ class BookFormTest(TestCase):
         book_form = BookForm(data={'title': "The Hobbit"})
         self.assertTrue(book_form.is_valid())
 
-    def test_book_form_author_field_is_required(self):
+    def test_book_form_title_field_is_required(self):
         book_form = BookForm()
         self.assertTrue(book_form.fields['title'].required)
 
