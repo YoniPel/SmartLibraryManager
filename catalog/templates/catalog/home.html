@@ -40,6 +40,14 @@
                         name="search-location">
                 </div>
 
+                <div class="col-md-3">
+                    <input
+                        type="search"
+                        class="form-control"
+                        placeholder="📤 למי מושאל"
+                        name="search-person-loaned-to">
+                </div>
+
                 <div class="col-md-2 d-grid">
                     <button class="btn btn-success">
                         🔍 חפש
@@ -98,7 +106,6 @@
                         <i class="bi bi-search" style="font-size: 3rem; color: #6c757d;"></i>
                     </div>
                     <h2 class="fw-bolder">לא נמצאו ספרים</h2>
-                    <p class="lead text-muted">לא הצלחנו למצוא תוצאות עבור "{{ request.GET.search }}".</p>
                     <div class="mt-4">
                         <a href="{% url 'home' %}" class="btn btn-primary">חזרה לרשימה המלאה</a>
                     </div>

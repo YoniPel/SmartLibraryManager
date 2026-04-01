@@ -23,6 +23,7 @@ class Home(ListView):
         search_title = self.request.GET.get('search-title')
         search_author = self.request.GET.get('search-author')
         search_location = self.request.GET.get('search-location')
+        search_person_loaned_to = self.request.GET.get('search-person-loaned-to')
 
         if search_title:
             queryset = queryset.filter(
@@ -34,6 +35,9 @@ class Home(ListView):
 
         if search_location:
             queryset = queryset.filter(location__name__icontains=search_location)
+
+        if search_person_loaned_to:
+            queryset = queryset.filter(person_loaned_to__icontains=search_person_loaned_to)
 
         return queryset
 
