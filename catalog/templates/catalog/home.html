@@ -6,8 +6,7 @@
     background-image: url('/static/catalog/assets/header.jpg');
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
-">
+    background-repeat: no-repeat;">
     <div class="container px-4 px-lg-5 my-5">
         <div class="text-center text-white">
             <h1 class="display-4 fw-bolder">
@@ -16,10 +15,40 @@
                 {% endblock header_title %}
             </h1>
 <!--                    <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>-->
-            <form method="GET" class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="כתוב שם של ספר או ISBN" aria-label="Search" name="search" >
-                <button class="btn btn-success my-2 my-sm-4" type="submit">חפש</button>
+            <form method="GET" class="row g-3 justify-content-center mt-4">
+                <div class="col-md-3">
+                    <input
+                        type="search"
+                        class="form-control"
+                        placeholder="📚 שם ספר או ISBN"
+                        name="search-title">
+                </div>
+
+                <div class="col-md-3">
+                    <input
+                        type="search"
+                        class="form-control"
+                        placeholder="✍️ שם הסופר"
+                        name="search-author">
+                </div>
+
+                <div class="col-md-3">
+                    <input
+                        type="search"
+                        class="form-control"
+                        placeholder="📍 מיקום"
+                        name="search-location">
+                </div>
+
+                <div class="col-md-2 d-grid">
+                    <button class="btn btn-success">
+                        🔍 חפש
+                    </button>
+                </div>
             </form>
+
+
+
         </div>
     </div>
 </header>

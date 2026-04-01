@@ -37,28 +37,28 @@ class HomeViewTest(TestCase):
 
     def test_get_queryset_filters_by_title(self):
         Book.objects.create(title="Lord Of The Rings", author="Tolkien")
-        response = self.client.get(reverse('home'), data={'search': 'Hobbit'})
+        response = self.client.get(reverse('home'), data={'search-title': 'Hobbit'})
         self.assertEqual(len(response.context['books']), 1)
         self.assertEqual(response.context['books'][0].title, self.book.title)
 
     def test_get_queryset_filters_by_isbn(self):
         another_book = Book.objects.create(title="Lord Of The Rings", author="Tolkien", isbn='0123456789')
-        response = self.client.get(reverse('home'), data={'search': another_book.isbn })
+        response = self.client.get(reverse('home'), data={'search-title': another_book.isbn })
         self.assertEqual(len(response.context['books']), 1)
         self.assertEqual(response.context['books'][0].title, another_book.title)
 
     def test_get_queryset_returns_empty_then_no_book_matches(self):
-        response = self.client.get(reverse('home'), data={'search': 'NotExist'})
+        response = self.client.get(reverse('home'), data={'search-title': 'NotExist'})
         self.assertEqual(len(response.context['books']), 0)
 
     def test_get_queryset_filters_case_insensitively(self):
-        response = self.client.get(reverse('home'), data={'search': 'hobbit'})
+        response = self.client.get(reverse('home'), data={'search-title': 'hobbit'})
         self.assertEqual(len(response.context['books']), 1)
         self.assertEqual(response.context['books'][0], self.book)
 
     def test_get_queryset_returns_all_books_when_search_is_empty(self):
         another_book = Book.objects.create(title="Lord Of The Rings", author="Tolkien")
-        response = self.client.get(reverse('home'), data={'search': ''})
+        response = self.client.get(reverse('home'), data={'search-title': ''})
         self.assertIn(self.book, response.context['books'])
         self.assertIn(another_book, response.context['books'])
 
@@ -292,7 +292,7 @@ class LoanedBooksViewTest(TestCase):
 
     def test_view_returns_specific_loaned_book_when_search_by_title(self):
         another_book = Book.objects.create(title="The Hobbit", is_loaned=True, person_loaned_to="John Doe")
-        response = self.client.get(reverse('loaned_books'), data={'search': 'Hobbit'})
+        response = self.client.get(reverse('loaned_books'), data={'search-title': 'The Hobbit'})
         self.assertEqual(len(response.context['books']), 1)
         self.assertEqual(response.context['books'][0], another_book)
 

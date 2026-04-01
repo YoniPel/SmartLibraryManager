@@ -20,12 +20,20 @@ class Home(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
 
-        search_term = self.request.GET.get('search')
+        search_title = self.request.GET.get('search-title')
+        search_author = self.request.GET.get('search-author')
+        search_location = self.request.GET.get('search-location')
 
-        if search_term:
+        if search_title:
             queryset = queryset.filter(
-                Q(title__icontains=search_term) | Q(isbn__icontains=search_term)
+                Q(title__icontains=search_title) | Q(isbn__icontains=search_title)
             )
+
+        if search_author:
+            queryset = queryset.filter(author__icontains=search_author)
+
+        if search_location:
+            queryset = queryset.filter(location__name__icontains=search_location)
 
         return queryset
 
@@ -128,24 +136,10 @@ class BookPageDelete(DeleteView):
     success_url = reverse_lazy('home')
 
 
-class LoanedBooks(ListView):
-    model = models.Book
-    ordering = ['-date_added_to_db']
-    context_object_name = 'books'
-    paginate_by = settings.PAGINATE_BY
+class LoanedBooks(Home):
     template_name = 'catalog/loaned_books.html'
 
     def get_queryset(self):
         queryset = super().get_queryset()
-
-        queryset = queryset.filter(Q(is_loaned=True))
-
-        search_term = self.request.GET.get('search')
-
-        if search_term:
-            queryset = queryset.filter(
-                Q(title__icontains=search_term) | Q(isbn__icontains=search_term)
-            )
-
-        return queryset
+        return queryset.filter(is_loaned=True)
 
