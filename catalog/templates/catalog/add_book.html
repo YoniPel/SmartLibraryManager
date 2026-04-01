@@ -12,19 +12,19 @@
 
                     <ul class="nav nav-pills nav-fill mb-4" id="bookFormTabs" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="isbn-tab" data-bs-toggle="tab" data-bs-target="#title-form-pane" type="button" role="tab">לפי שם ספר</button>
+                            <button class="nav-link active" id="book-tab" data-bs-toggle="tab" data-bs-target="#book-form-pane" type="button" role="tab">ידנית</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="isbn-tab" data-bs-toggle="tab" data-bs-target="#title-form-pane" type="button" role="tab">לפי שם ספר</button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="title-tab" data-bs-toggle="tab" data-bs-target="#isbn-form-pane" type="button" role="tab">לפי ISBN</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="book-tab" data-bs-toggle="tab" data-bs-target="#book-form-pane" type="button" role="tab">ידנית</button>
                         </li>
                     </ul>
 
                     <div class="tab-content" id="bookFormTabContent">
 
-                        <div class="tab-pane fade show active" id="title-form-pane" role="tabpanel" aria-labelledby="title-tab">
+                        <div class="tab-pane fade" id="title-form-pane" role="tabpanel" aria-labelledby="title-tab">
                             <form method="post">
                                 {% csrf_token %}
                                 <div class="mb-3">
@@ -57,7 +57,7 @@
                         </div>
 
 
-                        <div class="tab-pane fade" id="book-form-pane" role="tabpanel">
+                        <div class="tab-pane fade show active" id="book-form-pane" role="tabpanel">
                             <form method="post" enctype="multipart/form-data">
                                 {% csrf_token %}
 
