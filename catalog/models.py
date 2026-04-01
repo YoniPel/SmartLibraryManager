@@ -16,7 +16,7 @@ class Location(models.Model):
 
 class Book(models.Model):
     title = models.CharField(max_length=100, verbose_name="כותרת")
-    author = models.CharField(max_length=100, verbose_name="מחבר")
+    author = models.CharField(max_length=100, blank=True, null=True, verbose_name="מחבר")
     description = models.TextField(blank=True, null=True, verbose_name="תיאור")
 
     published_date = models.CharField(max_length=20, blank=True, null=True, verbose_name="תאריך הוצאה")
