@@ -17,6 +17,14 @@ class Home(ListView):
     paginate_by = settings.PAGINATE_BY
     template_name = 'catalog/home.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['search_title'] = self.request.GET.get('search-title', '')
+        context['search_author'] = self.request.GET.get('search-author', '')
+        context['search_location'] = self.request.GET.get('search-location', '')
+        context['search_person_loaned_to'] = self.request.GET.get('search-person-loaned-to', '')
+        return context
+
     def get_queryset(self):
         queryset = super().get_queryset()
 
