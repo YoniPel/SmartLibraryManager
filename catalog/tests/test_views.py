@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from catalog.models import Book
+from catalog.models import Book, Location
 from catalog.forms import BookTitleForm, BookISBNForm
 
 from unittest.mock import patch
@@ -46,6 +46,29 @@ class HomeViewTest(TestCase):
         response = self.client.get(reverse('home'), data={'search-title': another_book.isbn })
         self.assertEqual(len(response.context['books']), 1)
         self.assertEqual(response.context['books'][0].title, another_book.title)
+
+
+    def test_get_queryset_filters_by_author(self):
+        another_book = Book.objects.create(title="Harry Potter", author="J. K. Rowling")
+        response = self.client.get(reverse('home'), data={'search-author': 'J. K. Rowling'})
+        self.assertEqual(len(response.context['books']), 1)
+        self.assertIn(another_book, response.context['books'])
+
+    def test_get_queryset_filters_by_location(self):
+        location = Location.objects.create(name="Living Room")
+
+        another_book = Book.objects.create(title="Harry Potter", author="J. K. Rowling", location=location)
+        response = self.client.get(reverse('home'), data={'search-location': "Living Room"})
+
+        self.assertEqual(len(response.context['books']), 1)
+        self.assertIn(another_book, response.context['books'])
+
+    def test_get_queryset_filters_by_person_loaned_to(self):
+        another_book = Book.objects.create(title="Harry Potter", author="J. K. Rowling", person_loaned_to="John Doe")
+        response = self.client.get(reverse('home'), data={'search-person-loaned-to': 'John Doe'})
+
+        self.assertEqual(len(response.context['books']), 1)
+        self.assertIn(another_book, response.context['books'])
 
     def test_get_queryset_returns_empty_then_no_book_matches(self):
         response = self.client.get(reverse('home'), data={'search-title': 'NotExist'})
@@ -278,8 +301,10 @@ class LoanedBooksViewTest(TestCase):
 
 
     def test_view_returns_only_loaned_books(self):
+        self.another_book = Book.objects.create(title="The Hobbit")
         response = self.client.get(reverse('loaned_books'))
         self.assertIn(self.book, response.context['books'])
+        self.assertEqual(len(response.context['books']), 1)
 
 
     def test_view_returns_empty_queryset_when_no_loaned_books(self):
@@ -296,6 +321,18 @@ class LoanedBooksViewTest(TestCase):
         self.assertEqual(len(response.context['books']), 1)
         self.assertEqual(response.context['books'][0], another_book)
 
+    def test_get_queryset_filters_by_author(self):
+        another_book = Book.objects.create(title="Harry Potter", author="J. K. Rowling", is_loaned=True, person_loaned_to="John Doe")
+        response = self.client.get(reverse('loaned_books'), data={'search-author': 'J. K. Rowling'})
+        self.assertEqual(len(response.context['books']), 1)
+        self.assertIn(another_book, response.context['books'])
+
+    def test_get_queryset_filters_by_person_loaned_to(self):
+        another_book = Book.objects.create(title="Harry Potter", author="J. K. Rowling", is_loaned=True, person_loaned_to="Not John Doe")
+        response = self.client.get(reverse('loaned_books'), data={'search-person-loaned-to': 'Not John Doe'})
+
+        self.assertEqual(len(response.context['books']), 1)
+        self.assertIn(another_book, response.context['books'])
 
 
 
