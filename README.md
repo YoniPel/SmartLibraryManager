@@ -46,17 +46,17 @@ A full-stack, containerized web application for managing your personal library w
 ## Getting Started
 1. Prerequisites
     * Docker and Docker Compose
-    * A Google Books API key 
+* A Google Books API key 
 
-        > [!NOTE]  
-       A Google Books API key is required to fetch book details from the Google Books API.  
-       You can use an existing API key if you have one, or create a new one if you don't have it yet.  
-       To create a new API key, you can check [here](https://console.cloud.google.com/apis/credentials) and then do the following:
-      > * Create a new project or use existing one if you have already
-      > * In the project, press on `Create credentials` and then `API key`
-      > * Give the API key a name and create it (you can also restrict it to be used only for Books API)
-      > * Go to `Enabled APIs & Services` on the left, press the `Books API` and enable it
-    
+> [!NOTE]  
+> A Google Books API key is required to fetch book details from the Google Books API.  
+> You can use an existing API key if you have one, or create a new one if you don't have it yet.  
+> To create a new API key, you can check [here](https://console.cloud.google.com/apis/credentials) and then do the following:
+> * Create a new project or use existing one if you have already
+> * In the project, press on `Create credentials` and then `API key`
+> * Give the API key a name and create it (you can also restrict it to be used only for Books API)
+> * Go to `Enabled APIs & Services` on the left, press the `Books API` and enable it
+
 
 
 2. Environment Configuration
@@ -80,14 +80,14 @@ A full-stack, containerized web application for managing your personal library w
        # Google Books API key 
        GOOGLE_BOOKS_API_KEY=Google-Books-API-key
  
-    > [!NOTE]  
-     For a minimal setup, you only need to update the `SECRET_KEY` and the `GOOGLE_BOOKS_API_KEY`.  
-     The `SECRET_KEY` is required for security purposes (sessions, CSRF tokens, etc.).  
-     Since it is excluded from the version control for safety, you must generate your own.  
-     You can do this by running:   
-     `python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'`.   
-     This will print the new secret key, copy it and paste in the `.env` file as the value of `SECRET_KEY`.  
-     You can instead just write a random string as the value of `SECRET_KEY`, although this approach is less recommended.
+> [!NOTE]  
+> For a minimal setup, you only need to update the `SECRET_KEY` and the `GOOGLE_BOOKS_API_KEY`.  
+> The `SECRET_KEY` is required for security purposes (sessions, CSRF tokens, etc.).  
+> Since it is excluded from the version control for safety, you must generate your own.  
+> You can do this by running:   
+> `python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'`.   
+> This will print the new secret key, copy it and paste in the `.env` file as the value of `SECRET_KEY`.  
+> You can instead just write a random string as the value of `SECRET_KEY`, although this approach is less recommended.
 
 3. Run with Docker  
 * If this is the first time you are running the project:
