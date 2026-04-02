@@ -39,6 +39,10 @@ jobs:
       - name: run migrations
         run: |
           python manage.py migrate
+      - name: run django checks
+        run: |
+          python manage.py check
+          python manage.py makemigrations --check
       - name: run tests
         run: |
           python manage.py test
