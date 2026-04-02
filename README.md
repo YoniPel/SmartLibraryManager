@@ -80,7 +80,7 @@ A full-stack, containerized web application for managing your personal library w
        # Google Books API key 
        GOOGLE_BOOKS_API_KEY=Google-Books-API-key
  
-> [!NOTE]  
+> [!TIP]  
 > For a minimal setup, you only need to update `GOOGLE_BOOKS_API_KEY`.  
 
 3. Run with Docker  
