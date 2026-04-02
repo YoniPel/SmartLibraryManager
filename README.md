@@ -1,4 +1,4 @@
-# Smart Library Manager 📚
+# Smart Library Manager 📚 [![GitHub Actions CI](https://github.com/YoniPel/SmartLibraryManager/actions/workflows/ci.yaml/badge.svg)](https://github.com/YoniPel/SmartLibraryManager/actions/workflows/ci.yaml)
 A full-stack, containerized web application for managing your personal library with automated book data retrieval.
 
 ## Features
