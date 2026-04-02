@@ -148,8 +148,8 @@
     <div class="pagination d-flex justify-content-center">
         <span class="step-links " style="white-space: nowrap;">
             {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.paginator.num_pages }}">&laquo; אחרון</a>
-                <a href="?page={{ page_obj.next_page_number }}">הבא</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}{{ search_query }}">&laquo; אחרון</a>
+                <a href="?page={{ page_obj.next_page_number }}{{ search_query }}">הבא</a>
             {% endif %}
 
             <span class="current">
@@ -160,8 +160,8 @@
             </span>
 
             {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}">קודם</a>
-                <a href="?page=1"> ראשון&raquo;</a>
+                <a href="?page={{ page_obj.previous_page_number }}{{ search_query }}">קודם</a>
+                <a href="?page=1{{ search_query }}"> ראשון&raquo;</a>
             {% endif %}
         </span>
     </div>

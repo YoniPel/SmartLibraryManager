@@ -23,6 +23,14 @@ class Home(ListView):
         context['search_author'] = self.request.GET.get('search-author', '')
         context['search_location'] = self.request.GET.get('search-location', '')
         context['search_person_loaned_to'] = self.request.GET.get('search-person-loaned-to', '')
+
+        query_dict = self.request.GET.copy()
+
+        query_dict.pop('page', None)
+
+        if query_dict:
+            context['search_query'] = '&' + query_dict.urlencode()
+
         return context
 
     def get_queryset(self):
