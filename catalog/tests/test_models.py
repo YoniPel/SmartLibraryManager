@@ -54,6 +54,18 @@ class BookTest(TestCase):
         self.assertIsNone(self.book.location)
 
 
+    def test_save_page_count_to_zero_when_page_count_is_none(self):
+        self.book.page_count = None
+        self.book.save()
+        self.assertEqual(self.book.page_count, 0)
+
+
+    def test_save_author_to_unknown_when_author_is_none(self):
+        self.book.author = None
+        self.book.save()
+        self.assertEqual(self.book.author, "סופר לא ידוע")
+
+
 
 
 
