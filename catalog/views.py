@@ -139,7 +139,7 @@ class BookPageView(DetailView):
 
 class BookPageEdit(UpdateView):
     model = models.Book
-    fields = '__all__'
+    form_class = forms.BookForm
     template_name = 'catalog/book_page_edit.html'
 
 

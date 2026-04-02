@@ -14,6 +14,18 @@ class Location(models.Model):
         ordering = ["name"]
 
 
+class Tag(models.Model):
+    name = models.CharField(max_length=100, null=True, unique=True, verbose_name="תגית")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "תגית"
+        verbose_name_plural = "תגיות"
+
+
+
 class Book(models.Model):
     title = models.CharField(max_length=100, verbose_name="כותרת")
     author = models.CharField(max_length=100, blank=True, null=True, verbose_name="מחבר")
@@ -34,8 +46,11 @@ class Book(models.Model):
 
     isbn = models.CharField(max_length=13, blank=True, null=True, verbose_name="isbn")
 
+    tags = models.ManyToManyField(Tag, blank=True, verbose_name="תגיות")
+
     date_added_to_db = models.DateTimeField(auto_now_add=True, verbose_name="תאריך הוספה למערכת")
     last_modified = models.DateTimeField(auto_now=True, verbose_name="תאריך שינוי אחרון")
+
 
     def __str__(self):
         return self.title

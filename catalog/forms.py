@@ -19,6 +19,9 @@ class BookForm(forms.ModelForm):
     class Meta:
         model = models.Book
         fields = '__all__'
+        widgets = {
+            'tags': forms.CheckboxSelectMultiple(),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

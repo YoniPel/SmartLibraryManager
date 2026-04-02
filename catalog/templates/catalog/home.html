@@ -77,14 +77,27 @@
                     <div class="card-body p-4">
                         <div class="text-center">
                             <h5 class="fw-bolder">{{ book.title }}</h5>
+                            {% if book.author %}
                             <div class="small text-muted mb-2">
-                                <i class="bi bi-pen"></i> {{ book.author }}
+                                <i class="bi bi-pen text-success"></i> {{ book.author }}
                             </div>
+                            {% endif %}
 
                             {% if book.location %}
                             <div class="small text-muted mb-2">
-                                <i class="bi bi-geo-alt-fill"></i> {{ book.location }}
+                                <i class="bi bi-geo-alt-fill text-warning"></i> {{ book.location }}
                             </div>
+                            {% endif %}
+
+                            {% if book.tags.exists  %}
+                             <div class="small text-muted mb-2">
+                                    <i class="bi bi-tags text-primary"></i>
+                                    {% for tag in book.tags.all %}
+                                        <span class="badge rounded-pill bg-primary shadow-sm text-wrap d-inline-block">
+                                            {{ tag.name }}
+                                        </span>
+                                    {% endfor %}
+                             </div>
                             {% endif %}
 
                             {% if book.is_loaned %}
