@@ -77,6 +77,11 @@ class Book(models.Model):
             self.is_loaned = False
             self.person_loaned_to = None
 
+        if not self.page_count:
+            self.page_count = 0
+
+        if not self.author:
+            self.author = "סופר לא ידוע"
 
         super().save(*args, **kwargs)
 
