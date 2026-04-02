@@ -139,6 +139,16 @@ else:
         }
     }
 
+    SECURE_SSL_REDIRECT = True
+
+    SESSION_COOKIE_SECURE = True
+
+    CSRF_COOKIE_SECURE = True
+
+    # For Render, the 'X-Forwarded-Proto' header is used to determine if the original request was made over HTTPS.
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
