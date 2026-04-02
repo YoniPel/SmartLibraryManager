@@ -79,13 +79,22 @@
                             <h5 class="fw-bolder">{{ book.title }}</h5>
                             {% if book.author %}
                             <div class="small text-muted mb-2">
-                                <i class="bi bi-pen text-success"></i> {{ book.author }}
+                                <a class="text-decoration-none text-muted"
+                                       href="{% url 'home' %}?search-author={{ book.author }}"
+                                       title="חפש ספרים מאת {{ book.author }}">
+                                    <i class="bi bi-pen text-success"></i> {{ book.author }}
+                                </a>
                             </div>
                             {% endif %}
 
                             {% if book.location %}
                             <div class="small text-muted mb-2">
-                                <i class="bi bi-geo-alt-fill text-warning"></i> {{ book.location }}
+                                <a class="text-decoration-none text-muted"
+                                    href="{% url 'home' %}?search-location={{ book.location }}"
+                                    title="חפש ספרים שנמצאים ב{{ book.location }}">
+                                    <i class="bi bi-geo-alt-fill text-warning"></i> {{ book.location }}
+                                </a>
+
                             </div>
                             {% endif %}
 
@@ -93,9 +102,13 @@
                              <div class="small text-muted mb-2">
                                     <i class="bi bi-tags text-primary"></i>
                                     {% for tag in book.tags.all %}
-                                        <span class="badge rounded-pill bg-primary shadow-sm text-wrap d-inline-block">
-                                            {{ tag.name }}
+                                        <a class="text-decoration-none text-muted"
+                                            href="{% url 'home' %}?search-tags={{ tag.name }}">
+                                            <span class="badge rounded-pill bg-primary shadow-sm text-wrap d-inline-block">
+                                           {{ tag.name }}
                                         </span>
+                                        </a>
+
                                     {% endfor %}
                              </div>
                             {% endif %}
