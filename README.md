@@ -18,8 +18,8 @@ A full-stack, containerized web application for managing your personal library w
 > [!WARNING]  
 > This project is configured primarily for development use.
 > * The application runs using Django's built-in development server
->   * The Docker setup is intended for local development and testing 
->   * Production configuration (e.g., Nginx, Gunicorn, etc.) is not included
+> * The Docker setup is intended for local development and testing 
+> * Production configuration (e.g., Nginx, Gunicorn, etc.) is not included
 >
 > While the project can be adapted for production use, it is recommended to implement additional security measures and optimizations before deploying it in a production environment.
 > 
@@ -46,7 +46,7 @@ A full-stack, containerized web application for managing your personal library w
 ## Getting Started
 1. Prerequisites
     * Docker and Docker Compose
-* A Google Books API key 
+    * A Google Books API key 
 
 > [!NOTE]  
 > A Google Books API key is required to fetch book details from the Google Books API.  
@@ -81,13 +81,7 @@ A full-stack, containerized web application for managing your personal library w
        GOOGLE_BOOKS_API_KEY=Google-Books-API-key
  
 > [!NOTE]  
-> For a minimal setup, you only need to update the `SECRET_KEY` and the `GOOGLE_BOOKS_API_KEY`.  
-> The `SECRET_KEY` is required for security purposes (sessions, CSRF tokens, etc.).  
-> Since it is excluded from the version control for safety, you must generate your own.  
-> You can do this by running:   
-> `python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'`.   
-> This will print the new secret key, copy it and paste in the `.env` file as the value of `SECRET_KEY`.  
-> You can instead just write a random string as the value of `SECRET_KEY`, although this approach is less recommended.
+> For a minimal setup, you only need to update `GOOGLE_BOOKS_API_KEY`.  
 
 3. Run with Docker  
 * If this is the first time you are running the project:
