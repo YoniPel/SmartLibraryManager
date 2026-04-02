@@ -1,124 +1,168 @@
 {% extends "catalog/index.html" %}
 
 {% block content %}
-<div class="container mt-5 mb-5" dir="rtl">
+<div class="container py-5" dir="rtl">
     <div class="row justify-content-center">
-        <div class="col-lg-7">
-            <div class="card shadow border-0">
-                <div class="card-header bg-primary text-white p-4">
-                    <h3 class="mb-0 text-center">הוספת ספר חדש למערכת</h3>
+        <div class="col-xl-10 col-lg-11">
+
+            <div class="text-center mb-5">
+                <h1 class="fw-bold mb-3">הוספת ספר חדש</h1>
+                <p class="text-muted mb-0">
+                    ההוספה הידנית היא הדרך הראשית והמומלצת. אפשר גם לנסות חיפוש אוטומטי לפי שם ספר או ISBN.
+                </p>
+            </div>
+
+            <div class="card shadow-lg border-0 mb-5">
+                <div class="card-header bg-success text-white py-3">
+                    <h3 class="mb-0 text-center">
+                        <i class="bi bi-pencil-square ms-2"></i>
+                        הוספה ידנית
+                    </h3>
                 </div>
-                <div class="card-body p-4">
 
-                    <ul class="nav nav-pills nav-fill mb-4" id="bookFormTabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="book-tab" data-bs-toggle="tab" data-bs-target="#book-form-pane" type="button" role="tab">ידנית</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="isbn-tab" data-bs-toggle="tab" data-bs-target="#title-form-pane" type="button" role="tab">לפי שם ספר</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="title-tab" data-bs-toggle="tab" data-bs-target="#isbn-form-pane" type="button" role="tab">לפי ISBN</button>
-                        </li>
-                    </ul>
+                <div class="card-body p-4 p-md-5">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
 
-                    <div class="tab-content" id="bookFormTabContent">
+                        <div class="mb-4">
+                            <h5 class="fw-bold border-bottom pb-2 mb-4">פרטים בסיסיים</h5>
+                            <div class="row g-4">
+                                <div class="col-12">
+                                    <label class="form-label fw-bold">
+                                        שם הספר <span class="text-danger">*</span>
+                                    </label>
+                                    {{ book_form.title }}
+                                </div>
 
-                        <div class="tab-pane fade" id="title-form-pane" role="tabpanel" aria-labelledby="title-tab">
-                            <form method="post">
+                                <div class="col-12">
+                                    <label class="form-label fw-bold">מחבר</label>
+                                    {{ book_form.author }}
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="form-label fw-bold">מיקום</label>
+                                    {{ book_form.location }}
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="form-label fw-bold">למי הושאל</label>
+                                    {{ book_form.person_loaned_to }}
+                                    <div class="form-text">
+                                        אם ממלאים שם שואל, הספר יסומן כמושאל.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h5 class="fw-bold border-bottom pb-2 mb-4">פרטים נוספים</h5>
+                            <div class="row g-4">
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">ISBN</label>
+                                    {{ book_form.isbn }}
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">תאריך הוצאה</label>
+                                    {{ book_form.published_date }}
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">מספר עמודים</label>
+                                    {{ book_form.page_count }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h5 class="fw-bold border-bottom pb-2 mb-4">תיאור ותמונת כריכה</h5>
+                            <div class="row g-4">
+                                <div class="col-12">
+                                    <label class="form-label fw-bold">תיאור</label>
+                                    {{ book_form.description }}
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">תמונת כריכה (URL)</label>
+                                    {{ book_form.cover_image }}
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">או העלאת תמונה</label>
+                                    {{ book_form.cover_image_file }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            <button type="submit" name="submit_manual" class="btn btn-success btn-lg">
+                                <i class="bi bi-plus-circle ms-2"></i>
+                                הוסף ספר ידנית
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="card shadow-sm border-0 h-100">
+                        <div class="card-header bg-light py-3">
+                            <h4 class="mb-0 text-center">
+                                <i class="bi bi-book ms-2"></i>
+                                חיפוש לפי שם ספר
+                            </h4>
+                        </div>
+
+                        <div class="card-body p-4 d-flex flex-column">
+                            <p class="text-muted text-center mb-4">
+                                שימושי כשלא יודעים ISBN ורוצים לנסות למשוך נתונים אוטומטית.
+                            </p>
+
+                            <form method="post" class="mt-auto">
                                 {% csrf_token %}
                                 <div class="mb-3">
                                     <label class="form-label fw-bold">שם הספר</label>
                                     {{ title_form.title }}
-                                    <div class="form-text">כתוב את שם הספר (למשל: "מרחבים מסתברים").</div>
                                 </div>
+
                                 <div class="d-grid">
                                     <button type="submit" name="submit_title" class="btn btn-outline-primary">
-                                        <i class="bi bi-book me-2"></i>     חפש ספר לפי שם
+                                        <i class="bi bi-search ms-2"></i>
+                                        חפש לפי שם
                                     </button>
                                 </div>
                             </form>
                         </div>
+                    </div>
+                </div>
 
-                        <div class="tab-pane fade" id="isbn-form-pane" role="tabpanel" aria-labelledby="isbn-tab">
-                            <form method="post">
+                <div class="col-lg-6">
+                    <div class="card shadow-sm border-0 h-100">
+                        <div class="card-header bg-light py-3">
+                            <h4 class="mb-0 text-center">
+                                <i class="bi bi-upc-scan ms-2"></i>
+                                חיפוש לפי ISBN
+                            </h4>
+                        </div>
+
+                        <div class="card-body p-4 d-flex flex-column">
+                            <p class="text-muted text-center mb-4">
+                                הדרך הכי מדויקת לחיפוש אוטומטי, אם מספר ה־ISBN זמין.
+                            </p>
+
+                            <form method="post" class="mt-auto">
                                 {% csrf_token %}
                                 <div class="mb-3">
                                     <label class="form-label fw-bold">ISBN</label>
                                     {{ isbn_form.isbn }}
                                     <div class="form-text">הזן ISBN בן 10 או 13 ספרות.</div>
                                 </div>
+
                                 <div class="d-grid">
                                     <button type="submit" name="submit_isbn" class="btn btn-outline-primary">
-                                        <i class="bi bi-search me-2"></i> חפש והוסף ספר
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-
-
-                        <div class="tab-pane fade show active" id="book-form-pane" role="tabpanel">
-                            <form method="post" enctype="multipart/form-data">
-                                {% csrf_token %}
-
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">
-                                        שם הספר
-                                        <span class="text-danger">*</span>
-                                    </label>
-                                    {{ book_form.title }}
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">
-                                        מחבר
-                                    </label>
-                                    {{ book_form.author }}
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">תיאור</label>
-                                    {{ book_form.description }}
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">תאריך הוצאה</label>
-                                    {{ book_form.published_date }}
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">מספר עמודים</label>
-                                    {{ book_form.page_count }}
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">ISBN</label>
-                                    {{ book_form.isbn }}
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">תמונת כריכה (URL)</label>
-                                    {{ book_form.cover_image }}
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">או העלאת תמונה</label>
-                                    {{ book_form.cover_image_file }}
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">מיקום</label>
-                                    {{ book_form.location }}
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">למי הושאל</label>
-                                    {{ book_form.person_loaned_to }}
-                                </div>
-
-                                <div class="d-grid mt-4">
-                                    <button type="submit" name="submit_manual" class="btn btn-success">
-                                         הוסף ספר ידנית<i class="bi bi-plus-circle me-2"></i>
+                                        <i class="bi bi-search ms-2"></i>
+                                        חפש לפי ISBN
                                     </button>
                                 </div>
                             </form>
@@ -127,9 +171,13 @@
                 </div>
             </div>
 
-            <div class="text-center mt-3">
-                <a href="{% url 'home' %}" class="text-secondary text-decoration-none">חזרה לעמוד הבית</a>
+            <div class="text-center mt-4">
+                <a href="{% url 'home' %}" class="text-decoration-none text-secondary">
+                    <i class="bi bi-arrow-right ms-1"></i>
+                    חזרה לעמוד הבית
+                </a>
             </div>
+
         </div>
     </div>
 </div>
