@@ -93,13 +93,16 @@ A full-stack, containerized web application for managing your personal library w
 The app will be accessible at `localhost:8000` in the browser. 
 
 ## Deployment
-As mentioned in above, this project is configured primarily for development use.  
-However, it was also successfully deployed to production using Render, PostgreSQL, Gunicorn and AWS S3.  
-
-Below is a high-level overview of the deployment setup.
-
+As mentioned above, this project is configured primarily for development use.  
+However, it uses a single `setting.py` file that dynamically adjusts its configuration based on the environment variables,
+so it can be easily adapted for production with the following deployment setup:
 * Hosting - Render Web Service
 * Database - Render PostgreSQL
 * Static Files - Served via Whitenoise
-* Media Files - Stored in AWS S3
+* Media Files - Stored and Served via AWS S3
 * WSGI Server - Gunicorn
+
+With that being said, that is by no means the only way to deploy the project, and you can choose any hosting provider and deployment setup that suits your needs.
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
