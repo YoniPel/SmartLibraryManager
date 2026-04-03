@@ -24,6 +24,8 @@ class Home(ListView):
         context['search_location'] = self.request.GET.get('search-location', '')
         context['search_person_loaned_to'] = self.request.GET.get('search-person-loaned-to', '')
 
+        context['num_of_books'] = context['paginator'].count
+
         query_dict = self.request.GET.copy()
 
         query_dict.pop('page', None)

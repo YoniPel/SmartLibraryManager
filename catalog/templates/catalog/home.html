@@ -58,9 +58,15 @@
                     </button>
                 </div>
             </form>
-
-
-
+            {% if num_of_books %}
+            <div class="mb-4">
+                נמצאו <strong>{{ num_of_books }}</strong> ספרים
+            </div>
+        {% else %}
+            <div class="mb-4 text-muted">
+                לא נמצאו ספרים
+            </div>
+        {% endif %}
         </div>
     </div>
 </header>
