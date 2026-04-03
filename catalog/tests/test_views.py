@@ -6,6 +6,8 @@ from catalog.forms import BookTitleForm, BookISBNForm
 
 from unittest.mock import patch
 
+from smart_library.settings import PAGINATE_BY
+
 class HomeViewTest(TestCase):
 
     def setUp(self):
@@ -333,6 +335,73 @@ class LoanedBooksViewTest(TestCase):
 
         self.assertEqual(len(response.context['books']), 1)
         self.assertIn(another_book, response.context['books'])
+
+
+
+class PaginationTest(TestCase):
+
+    PAGINATION = PAGINATE_BY
+
+    def setUp(self):
+        # creates 3 pages of books when the last page is with one book
+        for _ in range(self.PAGINATION * 2 + 1):
+            Book.objects.create(title="book")
+
+    def test_pagination_page_1(self):
+        response = self.client.get(reverse('home'))
+        page_obj = response.context['page_obj']
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertEqual(len(page_obj.object_list), self.PAGINATION)
+
+        self.assertTrue(page_obj.has_next())
+        self.assertFalse(page_obj.has_previous())
+
+
+    def test_pagination_page_2(self):
+        response = self.client.get(reverse('home'), data={'page': 2})
+        page_obj = response.context['page_obj']
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertEqual(len(page_obj.object_list), self.PAGINATION)
+
+        self.assertTrue(page_obj.has_next())
+        self.assertTrue(page_obj.has_previous())
+
+    def test_pagination_page_3(self):
+        response = self.client.get(reverse('home'), data={'page': 3})
+        page_obj = response.context['page_obj']
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertEqual(len(page_obj.object_list), 1)
+
+        self.assertFalse(page_obj.has_next())
+        self.assertTrue(page_obj.has_previous())
+
+    def test_pagination_invalid_page(self):
+        response = self.client.get(reverse('home'), data={'page': 4})
+        self.assertEqual(response.status_code, 404)
+        response = self.client.get(reverse('home'), data={'page': 100})
+        self.assertEqual(response.status_code, 404)
+        response = self.client.get(reverse('home'), data={'page': -1})
+        self.assertEqual(response.status_code, 404)
+        response = self.client.get(reverse('home'), data={'page': 'abc'})
+        self.assertEqual(response.status_code, 404)
+
+    def test_pagination_with_query(self):
+        # creates one page of another book
+        for _ in range(self.PAGINATION + 1):
+            Book.objects.create(title="another_book")
+
+        response = self.client.get(reverse('home'), data={'search-title': 'another_book'})
+        page_obj = response.context['page_obj']
+
+        self.assertEqual(len(page_obj.object_list), self.PAGINATION)
+        self.assertTrue(page_obj.has_next())
+        self.assertFalse(page_obj.has_previous())
 
 
 
