@@ -45,3 +45,10 @@ jobs:
           python manage.py makemigrations --check
       - name: run tests
         run: pytest
+      - name: production check
+        env:
+          DEBUG: 'False'
+        run: python manage.py check --deploy
+
+
+
