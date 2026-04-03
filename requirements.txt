@@ -8,3 +8,5 @@ gunicorn
 whitenoise
 django-storages
 boto3
+pytest
+pytest-django
