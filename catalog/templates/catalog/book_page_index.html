@@ -31,9 +31,13 @@
                 <h3 class="text-muted mb-4">תגיות:</h3>
                 {% if book.tags.exists  %}
                     {% for tag in book.tags.all %}
+                    <a class="text-decoration-none text-muted"
+                            href="{% url 'home' %}?search-tags={{ tag.name }}">
                         <span class="badge rounded-pill bg-primary shadow-sm text-wrap d-inline-block">
                             {{ tag.name }}
                         </span>
+                    </a>
+
                     {% endfor %}
                 {% else %}
                     <span class="text-muted">אין תגיות לספר זה</span>
