@@ -98,7 +98,16 @@
                                 <a class="text-decoration-none text-muted"
                                     href="{% url 'home' %}?search-location={{ book.location }}"
                                     title="חפש ספרים שנמצאים ב{{ book.location }}">
-                                    <i class="bi bi-geo-alt-fill text-warning"></i> {{ book.location }}
+                                    <i class="bi bi-compass text-warning"></i> {{ book.location }}
+                                </a>
+
+                            </div>
+                            {% endif %}
+
+                            {% if book.line_in_library %}
+                            <div class="small text-muted mb-2">
+                                    <i class="bi bi-geo-alt-fill text-danger"></i>
+                                    שורה {{ book.line_in_library }} כוורת {{ book.shelf_in_line }}
                                 </a>
 
                             </div>

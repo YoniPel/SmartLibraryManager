@@ -22,10 +22,16 @@
                     <span class="badge bg-secondary fs-6">הספר מושאל ל{{book.person_loaned_to}}</span>
                 {% endif %}
 
-                {% if book.location %}
-                    <span class="badge bg-info fs-6">הספר נמצא ב{{book.location}}</span>
-                {% endif %}
             </div>
+
+            <hr>
+
+            <div>
+                <h3 class="text-muted mb-4">מיקום:</h3>
+                <span class="text-muted">{{book.get_location_in_string_format}}</span>
+            </div>
+
+            <hr>
 
             <div>
                 <h3 class="text-muted mb-4">תגיות:</h3>
@@ -44,6 +50,7 @@
                 {% endif %}
 
             </div>
+
 
             <hr>
             {% block book_content %} {% endblock book_content %}

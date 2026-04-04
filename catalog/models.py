@@ -40,6 +40,8 @@ class Book(models.Model):
     )
 
     location = models.ForeignKey(Location, blank=True, null=True, on_delete=models.SET_NULL, verbose_name="מיקום")
+    line_in_library = models.IntegerField(blank=True, null=True, verbose_name="שורה בספרייה")
+    shelf_in_line = models.IntegerField(blank=True, null=True, verbose_name="כוורת בשורה")
 
     is_loaned = models.BooleanField(default=False, help_text='האם הספר כרגע מושאל למישהו', verbose_name='מושאל?')
     person_loaned_to = models.CharField(null=True, blank=True, verbose_name='שם השואל')
@@ -72,6 +74,8 @@ class Book(models.Model):
         if self.person_loaned_to:
             self.is_loaned = True
             self.location = None
+            self.line_in_library = None
+            self.shelf_in_line = None
 
         else:
             self.is_loaned = False
@@ -82,6 +86,7 @@ class Book(models.Model):
 
         if not self.author:
             self.author = "סופר לא ידוע"
+
 
         super().save(*args, **kwargs)
 
@@ -94,4 +99,17 @@ class Book(models.Model):
             return self.cover_image
 
         return "/static/catalog/assets/placeholder.jpg"
+
+
+    @property
+    def get_location_in_string_format(self):
+        if not self.location:
+            return "לא ידוע"
+
+        line = [f"ב{self.location}"]
+
+        if self.line_in_library:
+            line.append(f"בשורה {self.line_in_library} בכוורת {self.shelf_in_line}")
+
+        return " ".join(line)
 
