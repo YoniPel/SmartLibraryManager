@@ -65,6 +65,15 @@ class BookTest(TestCase):
         self.book.save()
         self.assertEqual(self.book.author, "סופר לא ידוע")
 
+    def test_save_library_location_to_none_when_person_loaned_to_exists(self):
+        location = Location.objects.create(name="shelf A")
+        self.book.location = location
+        self.book.person_loaned_to = "John Doe"
+        self.book.save()
+
+        self.assertIsNone(self.book.line_in_library)
+        self.assertIsNone(self.book.shelf_in_line)
+
 
 
 
