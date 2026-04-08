@@ -82,6 +82,7 @@ A full-stack, containerized web application for managing your personal library w
  
 > [!TIP]  
 > For a minimal setup, you only need to update `GOOGLE_BOOKS_API_KEY`.  
+> If you're only planning on adding books manually, you can also ignore that as well. The only required field for adding a book manually is the title of the book.  
 
 3. Run with Docker  
 * If this is the first time you are running the project:
