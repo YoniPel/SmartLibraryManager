@@ -73,9 +73,6 @@ class Book(models.Model):
 
         if self.person_loaned_to:
             self.is_loaned = True
-            self.location = None
-            self.line_in_library = None
-            self.shelf_in_line = None
 
         else:
             self.is_loaned = False
